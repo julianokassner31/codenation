@@ -42,7 +42,7 @@ public class App {
 
 		app.saveFile(json.toString());
 
-//		app.enviarArquivo();
+		app.enviarArquivo();
 
 	}
 
@@ -71,12 +71,13 @@ public class App {
 	private void enviarArquivo() throws FileNotFoundException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>();
 
 		body.add("answer", new InputStreamResource(new FileInputStream(getPathToFile())));
-		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(body, headers);
 
 		RestTemplate restTemplate = new RestTemplate();
+		
 		ResponseEntity<String> response = restTemplate.postForEntity(URI, requestEntity, String.class);
 	}
 
