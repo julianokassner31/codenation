@@ -27,15 +27,9 @@ public class App {
 
 		App app = new App();
 
-		Map<String, String> decipheredWords = new HashMap<String, String>();
-
 		JSONObject json = app.parseStringToJson(app.getJsonString());
 
-		String[] cipheredWords = json.getString("cifrado").split(" ");
-		Integer numeroCasas = new Integer(json.getInt("numero_casas"));
-		
-
-		String decipheredPhrase = app.mountPhrase(decipheredWords, cipheredWords, numeroCasas);
+		String decipheredPhrase = app.mountPhrase(json);
 
 		json.put("decifrado", decipheredPhrase);
 		json.put("resumo_criptografico", DigestUtils.sha1Hex(decipheredPhrase));
@@ -46,9 +40,15 @@ public class App {
 
 	}
 
-	private String mountPhrase(Map<String, String> decipheredWords, String[] cipheredWords, Integer numeroCasas) {
+	private String mountPhrase(JSONObject json) {
+		
+		Map<String, String> decipheredWords = new HashMap<String, String>();
 		
 		StringBuilder decipheredPhrase = new StringBuilder();
+		
+		String[] cipheredWords = json.getString("cifrado").split(" ");
+		
+		Integer numeroCasas = new Integer(json.getInt("numero_casas"));
 		
 		for (String word : cipheredWords) {
 
